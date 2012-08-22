@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+var spriter = require('../spriter');
+
+spriter(process.argv[2]);

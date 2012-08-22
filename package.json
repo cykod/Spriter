@@ -1,0 +1,13 @@
+{
+  "name": "spriter",
+  "description": "A Sprite Map generator",
+  "author": "Your Name <youremail@domain.com>",
+  "version": "0.0.1",
+  "dependencies": {
+    "canvas" : "0.10.2",
+    "futures": "2.3.1"
+  },
+  "bin": "./bin/spriter",
+  "main": "./spriter.js"
+}
+

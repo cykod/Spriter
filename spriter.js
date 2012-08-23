@@ -77,7 +77,7 @@ function calculateSize(rowData) {
     }
 
     maxWidth = Math.max(width,maxWidth);
-    totalHeight += firstImage.height * rows;
+    totalHeight += firstImage.height * rows + 2;
   }
 
   return { width: maxWidth, height: totalHeight };
@@ -100,6 +100,8 @@ function drawImages(rowData,canvas) {
 
           console.log(spriteName + " " + cols + " " + rows);
 
+      curY++; 
+
       jsonOutput[spriteName] = { sx: 0, sy: curY, cols: cols,
                                  tilew: imageWidth, tileh: rowHeight, 
                                  frames: row.length };
@@ -110,7 +112,7 @@ function drawImages(rowData,canvas) {
             ctx.drawImage(row[k + i*cols ][1],k*imageWidth,curY);
           }
         }
-        curY += rowHeight;
+        curY += Math.ceil(rowHeight) + 1; 
       }
     }
 

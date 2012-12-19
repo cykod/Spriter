@@ -3,11 +3,11 @@
 Installing
 ----------
 
-Until it's packaged up, run:
+Until it's packaged up, run the following command from the repo's directory:
 
     npm link
 
-To put the package in a local directory
+To put the `spriter` script in your local bin directory.
 
 
 Running

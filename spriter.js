@@ -77,7 +77,7 @@ function calculateSize(rowData) {
     }
 
     maxWidth = Math.max(width,maxWidth);
-    totalHeight += firstImage.height * rows + 2;
+    totalHeight += firstImage.height * rows + 1;
   }
 
   return { width: maxWidth, height: totalHeight };
@@ -112,7 +112,7 @@ function drawImages(rowData,canvas) {
             ctx.drawImage(row[k + i*cols ][1],k*imageWidth,curY);
           }
         }
-        curY += Math.ceil(rowHeight) + 1; 
+        curY += Math.ceil(rowHeight); 
       }
     }
 

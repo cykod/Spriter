@@ -1,7 +1,7 @@
 {
   "name": "spriter",
   "description": "A Sprite Map generator",
-  "author": "Your Name <youremail@domain.com>",
+  "author": "Pascal Rettig",
   "version": "0.0.1",
   "dependencies": {
     "canvas" : "0.10.2",

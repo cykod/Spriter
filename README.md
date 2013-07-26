@@ -3,9 +3,17 @@
 Installing
 ----------
 
+Clone the repo, make sure you have node installed and then run:
+  
+    npm install
+
 Until it's packaged up, run the following command from the repo's directory:
 
     npm link
+
+Or if you have node installed globally
+
+    sudo npm link
 
 To put the `spriter` script in your local bin directory.
 

@@ -2,9 +2,9 @@
   "name": "spriter",
   "description": "A Sprite Map generator",
   "author": "Pascal Rettig",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
-    "canvas" : "0.10.2",
+    "canvas" : "1.0.4",
     "futures": "2.3.1"
   },
   "bin": "./bin/spriter",

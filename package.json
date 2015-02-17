@@ -2,10 +2,10 @@
   "name": "spriter",
   "description": "A Sprite Map generator",
   "author": "Pascal Rettig",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "dependencies": {
-    "canvas" : "1.0.4",
-    "futures": "2.3.1"
+    "canvas" : "1.2.1",
+    "futures": "2.3.3"
   },
   "bin": "./bin/spriter",
   "main": "./spriter.js"

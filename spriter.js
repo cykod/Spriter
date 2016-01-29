@@ -1,5 +1,7 @@
 var fs = require('fs'),
     util = require('util'),
+    path = require('path'),
+    mkdirp = require('mkdirp'),
     Canvas = require('canvas'),
     Image = Canvas.Image,
     Futures = require('futures'),
@@ -7,11 +9,18 @@ var fs = require('fs'),
 
 var maxSpriteWidth = 2048;
   
-function spriter(directory) { 
-  var files = fs.readdirSync(directory),
-      rowData = {},
+function spriter(options) {
+  var sourceDirectories = options.sourceDirectories,
+      imageDestination = options.imageDestination || '.',
+      dataDestination = options.dataDestination || '.';
+
+  var fileLists = sourceDirectories.reduce(function(lists, directory) {
+    lists[directory] = fs.readdirSync(directory);
+    return lists;
+  }, {});
+  var rowData = {},
       // Load all the images
-      join = loadImages(directory,files,rowData);
+      join = loadImages(fileLists,rowData);
  
   // Wait for the all images to load
   join.when(function() {
@@ -22,39 +31,48 @@ function spriter(directory) {
     // Draw the images to the canvas and return the JSON data
     var jsonOutput = drawImages(rowData,canvas);
 
+    // Create non-existent target directories recursively, if needed
+    mkdirp.sync(path.resolve(imageDestination));
+    mkdirp.sync(path.resolve(dataDestination));
+
     // Write out both the sprites.png and sprites.json files
-    fs.writeFileSync("./sprites.png",canvas.toBuffer());
-    fs.writeFileSync("./sprites.json",JSON.stringify(jsonOutput));
+    var imageTarget = path.resolve(imageDestination,"sprites.png"),
+        dataTarget = path.resolve(dataDestination,"sprites.json");
+    fs.writeFileSync(imageTarget,canvas.toBuffer());
+    fs.writeFileSync(dataTarget,JSON.stringify(jsonOutput));
     util.print("Wrote sprites.png and sprites.json\n");
   });
   
 }
 
-function loadImages(directory,files,rowData) {
+function loadImages(fileLists,rowData) {
   var fileRegex = /^(.*?)([0-9]+)\.[a-zA-Z]{3}$/,
       join = Join();
 
-  for(var i=0;i<files.length;i++) {
-    (function(file) {
-      var results = file.match(fileRegex),
-          img = new Image();
+  Object.keys(fileLists).forEach(function(directory) {
+    var files = fileLists[directory];
+    for(var i=0;i<files.length;i++) {
+      (function(file) {
+        var results = file.match(fileRegex),
+            img = new Image();
 
-      if(results) {
-        var rowName = results[1],
-            fileNum = parseInt(results[2],10);
+        if(results) {
+          var rowName = results[1],
+              fileNum = parseInt(results[2],10);
 
-        img.onload = join.add();
-        img.onerror = function() { 
-          util.print("Error loading: " + file + "\n"); process.exit(1); 
+          img.onload = join.add();
+          img.onerror = function() { 
+            util.print("Error loading: " + file + "\n"); process.exit(1); 
+          }
+
+          img.src = path.resolve(directory, file);
+
+          rowData[rowName] = rowData[rowName] || [];
+          rowData[rowName].push([fileNum,img]);
         }
-
-        img.src = directory.replace(/\/$/,"") + "/" + file;
-
-        rowData[rowName] = rowData[rowName] || [];
-        rowData[rowName].push([fileNum,img]);
-      }
-    })(files[i]);
-  }
+      })(files[i]);
+    }
+  });
 
   return join;
 

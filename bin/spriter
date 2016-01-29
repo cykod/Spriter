@@ -20,7 +20,4 @@ var options = {
   dataDestination: filterArg(parsedArgs.d)
 };
 
-console.log(typeof(options.imageDestination));
-console.log(typeof(options.dataDestination));
-
 spriter(options);

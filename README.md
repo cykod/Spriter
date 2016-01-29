@@ -44,6 +44,12 @@ Advanced Usage
 You may specify multiple source directories, as well as target directories for `sprites.png` and `sprites.json`.
 
     spriter <source_dir>... [-d <data_target_dir>] [-i <images_target_dir>]
+    
+Options:
+
+* `-d`:  Precedes name of directory where `sprites.json` will be placed.
+
+* `-i`:  Precedes name of directory where `sprites.png` will be placed.
 
 Examples:
 

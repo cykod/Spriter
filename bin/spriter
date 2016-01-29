@@ -1,5 +1,26 @@
 #!/usr/bin/env node
 
-var spriter = require('../spriter');
+var spriter = require('../spriter'),
+    minimist = require('minimist');
 
-spriter(process.argv[2]);
+var parsedArgs = minimist(process.argv.slice(2));
+
+if(!parsedArgs._.length) {
+  console.error('No source directory supplied; exiting.');
+  process.exit(1);
+}
+
+function filterArg(arg) {
+  return typeof arg === 'string' ? arg : undefined;
+}
+
+var options = {
+  sourceDirectories: parsedArgs._,
+  imageDestination: filterArg(parsedArgs.i),
+  dataDestination: filterArg(parsedArgs.d)
+};
+
+console.log(typeof(options.imageDestination));
+console.log(typeof(options.dataDestination));
+
+spriter(options);
